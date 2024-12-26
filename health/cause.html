@@ -1,0 +1,223 @@
+<html>
+<head>
+    <title>Health Status Evaluation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            padding: 20px;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 18px;
+        }
+        .normal {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .low {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .high {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .solution, .cause {
+            margin-top: 15px;
+        }
+        .solution p, .cause p {
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+</head>
+<body background="C:\Users\Muhammed Jeseem\Documents\download pics - Copy\blood_PNG6163.png">
+
+    <div class="container">
+        <h2>Heart Rate and Blood Pressure Evaluation</h2>
+
+        <div class="input-group">
+            <label for="age">Age:</label>
+            <input type="number" id="age" placeholder="Enter your age" required>
+        </div>
+
+        <div class="input-group">
+            <label for="heartRate">Heart Rate (BPM):</label>
+            <input type="number" id="heartRate" placeholder="Enter your heart rate" required>
+        </div>
+
+        <div class="input-group">
+            <label for="systolic">Systolic Blood Pressure (mmHg):</label>
+            <input type="number" id="systolic" placeholder="Enter your systolic blood pressure" required>
+        </div>
+
+        <div class="input-group">
+            <label for="diastolic">Diastolic Blood Pressure (mmHg):</label>
+            <input type="number" id="diastolic" placeholder="Enter your diastolic blood pressure" required>
+        </div>
+
+        <button class="btn" onclick="evaluateHealthStatus()">Evaluate</button>
+
+        <div id="result" class="result" style="display: none;"></div>
+        <div id="cause" class="cause" style="display: none;"></div>
+        <div id="solution" class="solution" style="display: none;"></div>
+    </div>
+
+    <script>
+        // Function to evaluate Heart Rate
+        function evaluateHeartRate(age, heartRate) {
+            let normalRange = [60, 100];
+
+            if (heartRate < normalRange[0]) {
+                return {
+                    status: "Low Heart Rate",
+                    cause: "A low heart rate can be caused by heart conditions, excessive physical fitness, or certain medications.",
+                    solution: "Consult a doctor for proper diagnosis, avoid over-exercising without proper rest, and review your medications."
+                };
+            } else if (heartRate > normalRange[1]) {
+                return {
+                    status: "High Heart Rate",
+                    cause: "A high heart rate can result from stress, dehydration, anemia, fever, or underlying health issues like hyperthyroidism.",
+                    solution: "Stay hydrated, manage stress, and consult a doctor if symptoms persist, as it could indicate an underlying health issue."
+                };
+            } else {
+                return {
+                    status: "Normal Heart Rate",
+                    cause: "Your heart rate is within the healthy range for your age and fitness level.",
+                    solution: "Continue maintaining a healthy lifestyle with regular exercise, a balanced diet, and stress management."
+                };
+            }
+        }
+
+        // Function to evaluate Blood Pressure
+        function evaluateBloodPressure(systolic, diastolic) {
+            if (systolic < 120 && diastolic < 80) {
+                return {
+                    status: "Normal Blood Pressure",
+                    cause: "Normal blood pressure indicates a healthy cardiovascular system.",
+                    solution: "Keep up the healthy habits with a balanced diet, regular exercise, and periodic checkups."
+                };
+            } else if (systolic >= 120 && systolic < 130 && diastolic < 80) {
+                return {
+                    status: "Elevated Blood Pressure",
+                    cause: "Elevated blood pressure may be caused by stress, lack of physical activity, or a poor diet.",
+                    solution: "Increase physical activity, reduce salt intake, manage stress, and monitor your blood pressure regularly."
+                };
+            } else if (systolic >= 130 && systolic <= 139 || diastolic >= 80 && diastolic <= 89) {
+                return {
+                    status: "Hypertension Stage 1",
+                    cause: "Stage 1 hypertension can be caused by poor diet, lack of exercise, or a genetic predisposition.",
+                    solution: "Adopt a healthier lifestyle, reduce salt intake, lose weight, and seek medical advice for medication if needed."
+                };
+            } else if (systolic >= 140 || diastolic >= 90) {
+                return {
+                    status: "Hypertension Stage 2",
+                    cause: "Hypertension Stage 2 can be caused by chronic poor lifestyle choices or genetic factors.",
+                    solution: "Consult your doctor for medication, make dietary changes, exercise more, and monitor your blood pressure regularly."
+                };
+            } else if (systolic > 180 || diastolic > 120) {
+                return {
+                    status: "Hypertensive Crisis",
+                    cause: "This is a medical emergency. Uncontrolled high blood pressure can be due to untreated hypertension or other severe conditions.",
+                    solution: "Seek immediate medical help to prevent life-threatening complications such as stroke or heart attack."
+                };
+            } else if (systolic < 90 || diastolic < 60) {
+                return {
+                    status: "Low Blood Pressure (Hypotension)",
+                    cause: "Low blood pressure can be caused by dehydration, blood loss, certain medications, or nutritional deficiencies.",
+                    solution: "Increase fluid intake, consume more salt, and eat small, frequent meals. Seek medical advice if you feel symptoms such as dizziness."
+                };
+            } else {
+                return {
+                    status: "Unknown Blood Pressure Status",
+                    cause: "Unusual readings may occur under specific circumstances.",
+                    solution: "Consult your doctor for a more accurate diagnosis."
+                };
+            }
+        }
+
+        // Function to evaluate health status and show results
+        function evaluateHealthStatus() {
+            const age = parseInt(document.getElementById('age').value);
+            const heartRate = parseInt(document.getElementById('heartRate').value);
+            const systolic = parseInt(document.getElementById('systolic').value);
+            const diastolic = parseInt(document.getElementById('diastolic').value);
+
+            if (isNaN(age) || isNaN(heartRate) || isNaN(systolic) || isNaN(diastolic)) {
+                alert("Please enter valid values for all fields.");
+                return;
+            }
+
+            const heartRateResult = evaluateHeartRate(age, heartRate);
+            const bloodPressureResult = evaluateBloodPressure(systolic, diastolic);
+
+            // Display results
+            let resultText = `<strong>Heart Rate:</strong> ${heartRateResult.status}<br><strong>Blood Pressure:</strong> ${bloodPressureResult.status}`;
+            let resultClass = "";
+
+            // Determine the result class
+            if (heartRateResult.status === "Normal Heart Rate" && bloodPressureResult.status === "Normal Blood Pressure") {
+                resultClass = "normal";
+            } else if (heartRateResult.status === "Low Heart Rate" || bloodPressureResult.status === "Low Blood Pressure (Hypotension)") {
+                resultClass = "low";
+            } else {
+                resultClass = "high";
+            }
+
+            document.getElementById('result').innerHTML = resultText;
+            document.getElementById('result').className = `result ${resultClass}`;
+            document.getElementById('result').style.display = "block";
+
+            // Display cause and solution
+            document.getElementById('cause').innerHTML = `<strong>Cause:</strong> <p>${heartRateResult.cause} <br>${bloodPressureResult.cause}</p>`;
+            document.getElementById('solution').innerHTML = `<strong>Solution:</strong> <p>${heartRateResult.solution} <br>${bloodPressureResult.solution}</p>`;
+
+            document.getElementById('cause').style.display = "block";
+            document.getElementById('solution').style.display = "block";
+        }
+    </script>
+
+</body>
+</html>

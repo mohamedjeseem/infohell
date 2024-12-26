@@ -1,0 +1,250 @@
+<html>
+<head>
+    <title>Health Info and Symptom Checker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Health Info and Disease Prediction</h1>
+
+        <!-- Age Input -->
+        <div class="input-section">
+            <label for="age">Enter your Age:</label>
+            <input type="number" id="age" min="1" required>
+        </div>
+
+        <!-- Symptoms Input -->
+        <div class="input-section">
+            <label for="symptoms">Enter Symptoms (comma separated):</label>
+            <input type="text" id="symptoms" placeholder="e.g. fever, cough, headache" required>
+        </div>
+
+        <!-- Submit Button -->
+        <button onclick="generateHealthInfo()">Submit</button>
+
+        <!-- Health Data Results -->
+        <div id="healthData" class="results">
+            <h2>Your Health Data:</h2>
+            <p id="healthStats"></p>
+        </div>
+
+        <!-- Disease Prediction Results -->
+        <div id="diseaseResults" class="results">
+            <h2>Possible Diseases:</h2>
+            <div id="diseaseList"></div>
+        </div>
+    </div>
+    
+    <div class="navigation">
+        <button onclick="window.location.href='cause.html'">Next</button>
+    </div>
+</div>
+
+    <script src="app.js"></script>
+    <style>
+        /* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.input-section {
+    margin: 15px 0;
+}
+
+input[type="number"], input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.results {
+    margin-top: 20px;
+}
+
+.results h2 {
+    color: #333;
+}
+
+#diseaseList {
+    margin-top: 15px;
+}
+
+.disease {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-left: 5px solid #4CAF50;
+}
+
+.disease img {
+    max-width: 150px;
+    display: block;
+    margin-top: 10px;
+}
+
+    </style>
+    <script>
+        // app.js
+
+// Function to generate health data based on age
+function generateHealthInfo() {
+    const age = parseInt(document.getElementById("age").value);
+    const symptoms = document.getElementById("symptoms").value;
+
+    // Display health data based on age
+    const healthData = getHealthData(age);
+    displayHealthData(healthData);
+
+    // Display possible diseases based on symptoms
+    const possibleDiseases = getPossibleDiseases(symptoms);
+    displayDiseases(possibleDiseases);
+}
+
+// Get health data based on age
+function getHealthData(age) {
+    let height, weight, bloodPressure, heartRate;
+    
+     
+    if (age == 0) {
+        height = "40-50 cm";
+        weight = "1.5-4 kg";
+        bloodPressure = "64/41 mmHg";
+        heartRate = "100-160 bpm";
+    }
+     
+   else if (age >= 1 && age <= 5) {
+        height = "71-112 cm";
+        weight = "9-20 kg";
+        bloodPressure = "100/60 mmHg";
+        heartRate = "90-120 bpm";
+    }
+    else if (age >=6 && ag<= 12) {
+        height = "114-140 cm";
+        weight = "23-40 kg";
+        bloodPressure = "90/60 mmHg";
+        heartRate = "80-100 bpm";
+
+    }
+     
+    if (age>=13&&age<=17) {
+        height = "150-180 cm";
+        weight = "40-70 kg";
+        bloodPressure = "90/60 mmHg";
+        heartRate = "70-100 bpm";
+    } 
+    else if (age >= 18 && age <= 50) {
+        height = "160-190 cm";
+        weight = "50-90 kg";
+        bloodPressure = "120/80 mmHg";
+        heartRate = "60-100 bpm";
+    } else {
+        height = "160-180 cm";
+        weight = "50-80 kg";
+        bloodPressure = "130/85 mmHg";
+        heartRate = "60-80 bpm";
+    }
+
+    return {
+        height: height,
+        weight: weight,
+        bloodPressure: bloodPressure,
+        heartRate: heartRate
+    };
+}
+
+// Display health data on the page
+function displayHealthData(data) {
+    const healthStats = document.getElementById("healthStats");
+    healthStats.innerHTML = `
+        <strong>Height:</strong> ${data.height}<br>
+        <strong>Weight:</strong> ${data.weight}<br>
+        <strong>Blood Pressure:</strong> ${data.bloodPressure}<br>
+        <strong>Heart Rate:</strong> ${data.heartRate}
+    `;
+}
+
+// Get possible diseases based on symptoms
+function getPossibleDiseases(symptoms) {
+    const symptomList = symptoms.toLowerCase().split(',').map(symptom => symptom.trim());
+    
+    let diseases = [];
+
+    if (symptomList.includes("fever") && symptomList.includes("cough")) {
+        diseases.push({ name: "Flu", description: "Flu is a contagious respiratory illness caused by influenza viruses.", image: "https://cbsnews1.cbsistatic.com/hub/i/2018/03/01/c0583e4c-e84b-485d-bdbd-c65d6160cae2/lapook-flu-vaccine-0301182.jpg" });
+    }
+    if (symptomList.includes("headache") && symptomList.includes("fever")) {
+        diseases.push({ name: "Migraine", description: "A migraine is a type of headache that can cause severe pain, often accompanied by nausea.", image: "https://static.vecteezy.com/system/resources/previews/024/157/019/original/nausea-or-vomiting-boy-cartoon-icon-in-flat-style-vector.jpg" });
+    }
+    if (symptomList.includes("chest pain") && symptomList.includes("shortness of breath")) {
+        diseases.push({ name: "Heart Attack", description: "A heart attack happens when a blood clot blocks blood flow to the heart muscle.", image: "https://sa1s3optim.patientpop.com/assets/images/provider/photos/2022560.jpg" });
+    }
+    if (symptomList.includes("stomach pain") && symptomList.includes("nausea")) {
+        diseases.push({ name: "Gastritis", description: "Gastritis is inflammation of the stomach lining, often caused by infection or irritation.", image: "https://www.positivehealthwellness.com/wp-content/uploads/2018/03/Depositphotos_150337566_original-1024x683.jpg" });
+    }
+
+    return diseases;
+}
+
+// Display the diseases and their images
+function displayDiseases(diseases) {
+    const diseaseList = document.getElementById("diseaseList");
+    diseaseList.innerHTML = "";
+
+    if (diseases.length === 0) {
+        diseaseList.innerHTML = "<p>No diseases found based on the symptoms provided.</p>";
+    } else {
+        diseases.forEach(disease => {
+            const diseaseElement = document.createElement("div");
+            diseaseElement.classList.add("disease");
+            diseaseElement.innerHTML = `
+                <strong>${disease.name}</strong><br>
+                <p>${disease.description}</p>
+                <img src="${disease.image}" alt="${disease.name}">
+            `;
+            diseaseList.appendChild(diseaseElement);
+        });
+    }
+}
+
+
+
+
+    </script>
+</body>
+</html>
